@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "version": "1.0",
+    "scope": "lab only: loopback + RFC1918",
+    "note": "Rules are data. Add an entry here, register a check function with the same id, and the engine picks it up."
+  },
+  "severities": {
+    "critical": 9.5,
+    "high": 8.0,
+    "medium": 5.3,
+    "low": 2.5,
+    "info": 0.0
+  },
+  "rules": [
+    {
+      "id": "VULN-001",
+      "title": "Plaintext administrative protocol exposed",
+      "severity": "high",
+      "category": "exposure",
+      "why": "Telnet and FTP send credentials and session data in clear text. Anyone on the same network segment can read them with a passive capture.",
+      "remediation": "Disable telnet/ftp. Use SSH/SFTP, or tunnel the service inside an authenticated, encrypted channel.",
+      "references": ["CWE-319", "https://cwe.mitre.org/data/definitions/319.html"]
+    },
+    {
+      "id": "VULN-002",
+      "title": "HTTP response missing hardening headers",
+      "severity": "low",
+      "category": "hardening",
+      "why": "Without CSP, X-Frame-Options, X-Content-Type-Options and Referrer-Policy the browser has no defence in depth against injected script, clickjacking and MIME sniffing.",
+      "remediation": "Set Content-Security-Policy, X-Frame-Options: DENY, X-Content-Type-Options: nosniff, Referrer-Policy: no-referrer; add Strict-Transport-Security once TLS is in place.",
+      "references": ["CWE-693", "https://owasp.org/www-project-secure-headers/"]
+    },
+    {
+      "id": "VULN-003",
+      "title": "Verbose server banner discloses product version",
+      "severity": "medium",
+      "category": "information-disclosure",
+      "why": "An exact product and version in the Server header lets an attacker match the host against public advisories without any probing.",
+      "remediation": "Return a generic Server header (or none), move version detail to internal logs only.",
+      "references": ["CWE-200", "https://cwe.mitre.org/data/definitions/200.html"]
+    },
+    {
+      "id": "VULN-004",
+      "title": "Weak TLS configuration",
+      "severity": "medium",
+      "category": "crypto",
+      "why": "TLS 1.0/1.1 and export or NULL ciphers are deprecated and breakable; they also fail modern compliance baselines.",
+      "remediation": "Allow only TLS 1.2+ with AEAD cipher suites (AES-GCM / ChaCha20-Poly1305), and disable renegotiation.",
+      "references": ["CWE-326", "https://cwe.mitre.org/data/definitions/326.html"]
+    },
+    {
+      "id": "VULN-005",
+      "title": "Administrative path reachable without authentication",
+      "severity": "high",
+      "category": "access-control",
+      "why": "An /admin surface answering 200 to an anonymous request means the control plane is exposed to anyone who can reach the port.",
+      "remediation": "Require authentication on the admin path, restrict it to a management network, or remove it from the exposed listener.",
+      "references": ["CWE-306", "https://cwe.mitre.org/data/definitions/306.html"]
+    },
+    {
+      "id": "VULN-006",
+      "title": "Directory listing enabled",
+      "severity": "medium",
+      "category": "information-disclosure",
+      "why": "A browsable directory index reveals file names, backups and structure that were never meant to be public.",
+      "remediation": "Disable autoindex / directory listing, or place an explicit index page in every served directory.",
+      "references": ["CWE-548", "https://cwe.mitre.org/data/definitions/548.html"]
+    },
+    {
+      "id": "INFO-001",
+      "title": "Service inventory",
+      "severity": "info",
+      "category": "enumeration",
+      "why": "Open ports and identified services recorded for the report, not a vulnerability by itself.",
+      "remediation": "Confirm every open port is intentional; close anything that is not part of the documented service.",
+      "references": ["https://owasp.org/www-community/attacks/Port_Scanning"]
+    }
+  ]
+}

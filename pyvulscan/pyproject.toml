@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyvulscan"
+version = "1.0.0"
+description = "Lab-scoped network vulnerability scanner (loopback / RFC1918 only)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["jinja2>=3.1"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+pyvulscan = "pyvulscan.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["pyvulscan*"]
+
+[tool.setuptools.package-data]
+pyvulscan = ["data/rules.json", "templates/*.j2"]
