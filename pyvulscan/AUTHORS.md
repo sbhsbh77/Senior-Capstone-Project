@@ -4,5 +4,5 @@
 Senior Capstone Project · PyVulScan
 
 - Repository: `github.com/sbhshb77/Senior-Capstone-Project` (folder `pyvulscan/`)
-- Contact: `sbhshb77@users.noreply.github.com`
+- Contact: `sbhsbh77@users.noreply.github.com`
 - Submitted: 2026-11-24
